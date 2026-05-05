@@ -1,0 +1,58 @@
+{
+  "DECISION_FRAME_SCHEMA": {
+    "type": "object",
+    "properties": {
+      "decision_statement": { "type": "string" },
+      "decision_type": { "type": "string", "enum": ["build_buy_partner_defer", "prioritization", "investment", "roadmap", "other"] },
+      "reversibility": { "type": "string", "enum": ["high", "medium", "low"] },
+      "decision_risk_level": { "type": "string", "enum": ["high", "medium", "low"] }
+    }
+  },
+  "AGENT_ANALYSIS_SCHEMA": {
+    "type": "object",
+    "properties": {
+      "summary": { "type": "string" },
+      "details": { "type": "array", "items": { "type": "string" } },
+      "assumptions": { "type": "array", "items": { "type": "string" } },
+      "evidence_gaps": {
+         "type": "array",
+         "items": {
+           "type": "object",
+           "properties": {
+             "item": { "type": "string" },
+             "impact": { "type": "string", "enum": ["high", "medium", "low"] }
+           }
+         }
+      },
+      "top_risk": { "type": "string" },
+      "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+    }
+  },
+  "EXECUTIVE_SYNTHESIS_SCHEMA": {
+    "type": "object",
+    "properties": {
+      "executive_recommendation": {
+        "type": "object",
+        "properties": {
+          "recommended_option": { "type": "string" },
+          "recommendation_type": { "type": "string", "enum": ["commit", "validate_first", "defer", "reject", "hybrid"] },
+          "summary": { "type": "string" },
+          "confidence": { "type": "string", "enum": ["high", "medium", "low"] }
+        }
+      },
+      "why_this_recommendation": { "type": "array", "items": { "type": "string" } },
+      "next_30_days": {
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "action": { "type": "string" },
+            "owner": { "type": "string" },
+            "desired_output": { "type": "string" }
+          }
+        }
+      },
+      "kill_or_reconsider_criteria": { "type": "array", "items": { "type": "object" } }
+    }
+  }
+}
