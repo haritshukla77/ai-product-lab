@@ -1,0 +1,18 @@
+# Core Dependencies
+feedparser==6.0.11
+requests==2.31.0
+beautifulsoup4==4.12.2
+python-dotenv==1.0.0
+APScheduler==3.10.4
+Jinja2==3.1.2
+pytz==2023.3
+html2text==2020.1.16
+
+# Optional: AI-powered filtering
+openai==1.3.0
+
+# Development and Testing
+pytest==7.4.3
+pytest-cov==4.1.0
+black==23.11.0
+flake8==6.1.0
