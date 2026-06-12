@@ -40,19 +40,17 @@ An intelligent news aggregation system that curates and delivers personalized AI
 
 ---
 
-### 📚 [DH EdtechStartup](./DH_EdtechStartup/)
+### 📚 trategic Decision OS
 
-**[Your EdTech Project Description]**
+**This project is a Strategic Decision OS to help PMs to build/buy decisions.
 
-An innovative educational technology solution designed to [brief description of what it does].
+Strategic Decision OS is a multi-agent AI decision support workflow for senior product and platform leaders. It compresses ambiguous strategic decisions into structured recommendations by orchestrating agents across decision framing, product/market, platform, financial, risk/governance, and executive synthesis lenses. The system is designed to support, not replace, executive judgment.
 
-**Key Features:**
-- [Feature 1]
-- [Feature 2]
-- [Feature 3]
+Primary value: compress strategic decision cycles while preserving assumption transparency and human judgment. Primary demo scenario: build vs partner vs hybrid decision for agent orchestration in a regulated healthcare AI platform. Primary product signal: AI used as a decision workflow, not only as a writing assistant. Primary architecture signal: sequential state machine with conditional HITL gates and structured JSON contracts.
+
 
 **Tech Stack:**
-- [Your technologies]
+- Google AI Studio
 
 [View Project →](./DH_EdtechStartup/)
 
