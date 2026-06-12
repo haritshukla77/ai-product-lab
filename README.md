@@ -40,7 +40,7 @@ An intelligent news aggregation system that curates and delivers personalized AI
 
 ---
 
-### 📚 trategic Decision OS
+### 📚  Strategic Decision OS
 
 **This project is a Strategic Decision OS to help PMs to build/buy decisions.
 
