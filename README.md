@@ -2,7 +2,7 @@
 
 > AI projects distilled from my experience across domains
 
-A curated collection of practical AI applications spanning automation, education technology, and intelligent systems. Each project demonstrates real-world problem-solving with modern AI technologies.
+Attempt to build hands-on real-world AI applications spanning personal automation, Enterprise AI, Healthcare, Life Sciences, education technology, and intelligent systems(including our favourite breakfast table discussion topic SpaceTech, yep!). Each project demonstrates real-world problem-solving with modern AI technologies.
 
 ---
 
