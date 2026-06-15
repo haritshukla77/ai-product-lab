@@ -1,4 +1,4 @@
-# Harit Shukla's AI Projects
+# harit-ai-product-labs
 
 A portfolio of hands-on AI product prototypes exploring agentic workflows, AI-assisted software development, decision intelligence, and automation systems.
 
