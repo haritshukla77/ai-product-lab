@@ -1,8 +1,8 @@
 # Harit Shukla's AI Projects
 
-> AI projects distilled from my experience across domains
+A portfolio of hands-on AI product prototypes exploring agentic workflows, AI-assisted software development, decision intelligence, and automation systems.
 
-Attempt to build hands-on real-world AI applications spanning personal automation, Enterprise AI, Healthcare, Life Sciences, education technology, and intelligent systems(including our favourite breakfast table discussion topic SpaceTech, yep!). Each project demonstrates real-world problem-solving with modern AI technologies.
+These projects are built as learning artifacts and product experiments, with emphasis on workflow design, architecture, evaluation, human oversight, and practical implementation.
 
 ---
 
