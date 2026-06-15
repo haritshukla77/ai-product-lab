@@ -12,7 +12,7 @@ Attempt to build hands-on real-world AI applications spanning personal automatio
 
 **Automated Daily AI News Digest System**
 
-An intelligent news aggregation system that curates and delivers personalized AI/LLM news from trusted sources directly to your inbox every morning.
+An intelligent news aggregation system that curates and delivers personalized AI/LLM news from trusted sources directly to your inbox every morning. This is built using IBM BOB! Absolutely loved it!
 
 **Key Features:**
 - 📰 Multi-source news aggregation (TechCrunch, VentureBeat, MIT Technology Review, ArXiv)
