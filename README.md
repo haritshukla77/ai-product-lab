@@ -95,7 +95,7 @@ Each project is built with:
 
 **Harit Shukla**
 - GitHub: [@haritshukla77](https://github.com/haritshukla77)
-- Email: harryshukla613@gmail.com
+- Email: haritshukla@gmail.com
 
 ---
 
