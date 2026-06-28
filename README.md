@@ -239,7 +239,7 @@ I'm a **Product Manager** exploring the intersection of **agentic AI workflows**
 - How I'd approach problems at your company
 
 **Reach me**:
-- **Email**: harryshukla613@gmail.com
+- **Email**: haritshukla@gmail.com
 - **GitHub**: [@haritshukla77](https://github.com/haritshukla77)
 - **Interested in**: AI product strategy, multi-agent systems, decision intelligence, regulated AI
 
