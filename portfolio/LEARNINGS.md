@@ -47,7 +47,7 @@ From a product design perspective, this separation is critical because it distin
 **What I noticed:**  
 The system generated planning documentation with Mermaid diagrams *before* any code was written. This made the implementation easier to understand and review before coding started.
 
-![IBM BOB Architecture Documentation](screenshots/ibm-bob-02-build-status.png)
+![IBM BOB Architecture Documentation](screenshots/05_Architecture.png)
 
 **Why this matters:**  
 AI-assisted development can otherwise become opaque. When the tool creates implementation plans, architecture diagrams, technical specs, and deployment notes upfront, it makes the work inspectable, reviewable, and easier to trust. Users can validate the AI's reasoning before committing to implementation.
@@ -67,7 +67,7 @@ IBM BOB provided clear updates across different build stages. The completion sum
 - Scheduling and email integration
 - What was complete vs. what needed verification
 
-![IBM BOB Build Status Overview](screenshots/ibm-bob-03-next-action.png)
+![IBM BOB Build Status Overview](screenshots/02-end-to-end-build-status.png)
 
 **Why this matters:**  
 This visibility made it easy to understand what had been built, what could be tested, and what remained. Without this, agentic products can feel like black boxes that "just work" without the user understanding the state of the system.
@@ -82,7 +82,7 @@ This visibility made it easy to understand what had been built, what could be te
 **What I noticed:**  
 The AI correctly identified that the application was functionally complete, but the workflow wasn't operationally ready—it needed Gmail credentials to actually send emails. The guidance pointed me to the next constraint, not just the next code task.
 
-![IBM BOB Next-Best-Action Guidance](screenshots/ibm-bob-04-deployment.png)
+![IBM BOB Next-Best-Action Guidance](screenshots/03-next-best-action.png)
 
 **Why this matters:**  
 This shows understanding of the difference between "code is complete" and "the workflow is operationally ready." A useful agent doesn't stop at task completion—it identifies the next operational blocker and guides the user toward the next meaningful step.
@@ -102,7 +102,7 @@ IBM BOB completed the end-to-end delivery by automatically creating a **Deployme
 - Steps for running the agent in different modes
 - Next steps and troubleshooting
 
-![IBM BOB Deployment Guide](screenshots/ibm-bob-04-deployment.png)
+![IBM BOB Deployment Guide](screenshots/04-deployment-guide.png)
 
 **Why this matters:**  
 For AI coding agents, the product experience shouldn't end when code compiles. A stronger experience includes setup guidance, deployment instructions, test steps, operational checks, and clear recommendations for what to do next.
