@@ -31,7 +31,7 @@ An **AI News Agent** that automates a daily AI news digest workflow:
 **What I noticed:**  
 IBM BOB paused after planning and explicitly asked to switch to **Code mode** before implementation started. Most AI tools don't do this intuitively—they jump straight into coding.
 
-![IBM BOB Planning-to-Code Mode](./portfolio/screenshots/01-planning-to-code-mode.png)
+![IBM BOB Planning-to-Code Mode](screenshots/01-planning-to-code-mode.png)
 
 
 **Why this matters:**  
