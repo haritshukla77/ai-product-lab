@@ -32,6 +32,7 @@ An **AI News Agent** that automates a daily AI news digest workflow:
 IBM BOB paused after planning and explicitly asked to switch to **Code mode** before implementation started. Most AI tools don't do this intuitively—they jump straight into coding.
 
 ![IBM BOB Planning-to-Code Mode](./screenshots/ibm-bob-01-planning.png)
+(./portfolio/screenshots/01-planning-to-code-mode.png)
 
 **Why this matters:**  
 From a product design perspective, this separation is critical because it distinguishes **planning intent** from **execution intent**. It reduces accidental implementation, gives the user a checkpoint to review strategy before code changes, and makes the AI-assisted workflow feel more controlled and intentional.
