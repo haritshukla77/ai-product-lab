@@ -44,16 +44,6 @@ From a product design perspective, this separation is critical because it distin
 
 ### Observation 2: Structured Architecture & Implementation Documentation
 
-**What I noticed:**  
-The system generated planning documentation with Mermaid diagrams *before* any code was written. This made the implementation easier to understand and review before coding started.
-![IBM BOB Architecture Documentation](screenshots/05_Architecture.png)
-
-**Why this matters:**  
-AI-assisted development can otherwise become opaque. When the tool creates implementation plans, architecture diagrams, technical specs, and deployment notes upfront, it makes the work inspectable, reviewable, and easier to trust. Users can validate the AI's reasoning before committing to implementation.
-
-**PM Takeaway:**  
-*For agentic development products, documentation should not be an afterthought. Planning docs, architecture diagrams, and technical specs are part of the product experience because they help the user inspect and trust the agent's reasoning before implementation.*
-
 ---
 
 ### Observation 3: Well-Structured End-to-End Build Updates
