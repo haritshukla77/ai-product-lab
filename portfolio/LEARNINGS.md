@@ -47,6 +47,7 @@ From a product design perspective, this separation is critical because it distin
 **What I noticed:**  
 The system generated planning documentation with Mermaid diagrams *before* any code was written. This made the implementation easier to understand and review before coding started.
 
+![IBM BOB Architecture Documentation](screenshots/05_Architecture.png)
 
 **Why this matters:**  
 AI-assisted development can otherwise become opaque. When the tool creates implementation plans, architecture diagrams, technical specs, and deployment notes upfront, it makes the work inspectable, reviewable, and easier to trust. Users can validate the AI's reasoning before committing to implementation.
