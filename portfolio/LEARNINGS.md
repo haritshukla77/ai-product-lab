@@ -46,7 +46,8 @@ From a product design perspective, this separation is critical because it distin
 
 **What I noticed:**
 The system generated planning documentation with Mermaid diagrams before any code was written. This made the implementation easier to understand and review before coding started.
-![IBM BOB Architecture Documentation](screenshots/05_Architecture.png)
+
+![IBM BOB Architecture Documentation](screenshots/05-Architecture.png)
 
 
 **Why this matters:**
