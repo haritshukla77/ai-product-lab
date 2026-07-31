@@ -2,7 +2,7 @@
 
 ## Learnings from Building an AI News Agent with IBM BOB
 
-This document captures observations from building an **AI News Agent** using **IBM BOB**. The goal was not only to build a working agent, but also to understand how IBM BOB supports an AI-assisted [...] 
+This document captures observations from building an **AI News Agent** using **IBM BOB**. The goal was not only to build a working agent, but also to understand how IBM BOB supports an AI-assisted [...]
 
 This reflection directly informed the approach to [AI News Agent](../) and shapes my thinking about PM methodology for AI systems.
 
@@ -31,7 +31,7 @@ An **AI News Agent** that automates a daily AI news digest workflow:
 **What I noticed:**  
 IBM BOB paused after planning and explicitly asked to switch to **Code mode** before implementation started. Most AI tools don't do this intuitively—they jump straight into coding.
 
-![IBM BOB Planning-to-Code Mode](../../portfolio/screenshots/01-planning-to-code-mode.png)
+![IBM BOB Planning-to-Code Mode](screenshots/01-planning-to-code-mode.png)
 
 
 **Why this matters:**  
@@ -47,7 +47,7 @@ From a product design perspective, this separation is critical because it distin
 **What I noticed:**
 The system generated planning documentation with Mermaid diagrams before any code was written. This made the implementation easier to understand and review before coding started.
 
-![IBM BOB Architecture Documentation](../../portfolio/screenshots/05-Architecture.png)
+![IBM BOB Architecture Documentation](screenshots/05-Architecture.png)
 
 
 **Why this matters:**
@@ -68,7 +68,7 @@ IBM BOB provided clear updates across different build stages. The completion sum
 - Scheduling and email integration
 - What was complete vs. what needed verification
 
-![IBM BOB Build Status Overview](../../portfolio/screenshots/02-end-to-end-build-status.png)
+![IBM BOB Build Status Overview](screenshots/02-end-to-end-build-status.png)
 
 **Why this matters:**  
 This visibility made it easy to understand what had been built, what could be tested, and what remained. Without this, agentic products can feel like black boxes that "just work" without the user [...]
@@ -83,7 +83,7 @@ This visibility made it easy to understand what had been built, what could be te
 **What I noticed:**  
 The AI correctly identified that the application was functionally complete, but the workflow wasn't operationally ready—it needed Gmail credentials to actually send emails. The guidance pointed [...]
 
-![IBM BOB Next-Best-Action Guidance](../../portfolio/screenshots/03-next-best-action.png)
+![IBM BOB Next-Best-Action Guidance](screenshots/03-next-best-action.png)
 
 **Why this matters:**  
 This shows understanding of the difference between "code is complete" and "the workflow is operationally ready." A useful agent doesn't stop at task completion—it identifies the next operational[...]
@@ -103,7 +103,7 @@ IBM BOB completed the end-to-end delivery by automatically creating a **Deployme
 - Steps for running the agent in different modes
 - Next steps and troubleshooting
 
-![IBM BOB Deployment Guide](../../portfolio/screenshots/04-deployment-guide.png)
+![IBM BOB Deployment Guide](screenshots/04-deployment-guide.png)
 
 **Why this matters:**  
 For AI coding agents, the product experience shouldn't end when code compiles. A stronger experience includes setup guidance, deployment instructions, test steps, operational checks, and clear re[...]
@@ -120,8 +120,7 @@ IBM BOB's workflow reinforced several key AI PM lessons:
 ### 1. **Intent Should Be Productized**
 Ask, Plan, Code, and similar modes help users express intent without relying only on long prompts. This is a useful design pattern for AI-native products—it makes the interaction feel structure[...]
 
-### 2. **Trust Comes from Checkpoints**
-Pausing before implementation, showing plans, and asking for mode changes all create user control points. This is especially important when the AI can modify code or run commands.
+### 2. **Trust Comes from Checkpoints**nPausing before implementation, showing plans, and asking for mode changes all create user control points. This is especially important when the AI can modify code or run commands.
 
 ### 3. **Agentic Workflows Need State Visibility**
 Users need to understand what the agent has done, what it's currently doing, and what still requires human action. This visibility builds confidence.
