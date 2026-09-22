@@ -2,7 +2,7 @@
 
 ## Building Production-Grade AI Systems: Agents, Decision Intelligence & Automation
 
-I'm a **Product Manager** exploring the intersection of **agentic AI workflows**, **structured decision-making**, and **real-world product implementation**. This portfolio showcases how I approach AI product problems: starting with clarity, designing for scale, and building with intentionality.
+I'm a **Product Manager** exploring the intersection of **Gen AI, agentic AI workflows**, **structured decision-making**, and **real-world product implementation**. This portfolio showcases how I approach AI product problems: starting with clarity, designing for scale, and building with intentionality.
 
 **For Hiring Managers**: These are personal projects that demonstrate my **methodology** (PRD → Architecture → Implementation), **documentation rigor**, and **thinking about compliance, scalability, and observability** from day one. [Let's discuss live](#-connect).
 
