@@ -1,4 +1,4 @@
-# DevPulse — AI Developer Newsletter Automation
+# Agentic Workflow Automation - A Simple Use Case: AI Developer Newsletter Automation
 
 An end-to-end newsletter automation built with UiPath Maestro Automate and Visual Studio Code. The workflow retrieves developer news, uses an autonomous agent to draft a newsletter, and requests human approval before sending it through Gmail.
 
