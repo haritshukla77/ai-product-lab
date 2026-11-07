@@ -31,7 +31,7 @@ Given a topic and recipient, the automation:
 
 The complete workflow in UiPath Maestro Automate’s new Flow canvas, showing how data retrieval, agent execution, human review, and email delivery connect.
 
-![End-to-end workflow in UiPath Maestro Automate](Screenshots/Workflow%20Overall.png)
+![End-to-end workflow in UiPath Maestro Automate](Screenshots/Workflow_overall.png)
 
 ## Human-in-the-Loop Review
 
