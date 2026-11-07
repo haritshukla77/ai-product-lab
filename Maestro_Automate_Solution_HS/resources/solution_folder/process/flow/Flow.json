@@ -1,0 +1,44 @@
+{
+  "docVersion": "1.0.0",
+  "resource": {
+    "name": "Flow",
+    "kind": "process",
+    "type": "flow",
+    "apiVersion": "orchestrator.uipath.com/v1",
+    "projectKey": "9a461b3e-454a-49cb-9958-ec22240cd297",
+    "isOverridable": true,
+    "dependencies": [
+      {
+        "name": "Flow",
+        "kind": "package"
+      }
+    ],
+    "runtimeDependencies": [],
+    "folders": [
+      {
+        "fullyQualifiedName": "solution_folder"
+      }
+    ],
+    "spec": {
+      "runtimeProfile": "Standard",
+      "type": "Flow",
+      "name": "Flow",
+      "package": {
+        "key": "28197825-0d28-4682-9c9f-55bebb3cad8b"
+      },
+      "packageName": "Maestro_Automate_Solution_HS.flow.Flow",
+      "hiddenForAttendedUser": false,
+      "alwaysRunning": false,
+      "autoStartProcess": false,
+      "targetFrameworkValue": "Portable",
+      "retentionAction": "Delete",
+      "retentionPeriod": 30,
+      "staleRetentionAction": "Delete",
+      "staleRetentionPeriod": 180,
+      "tags": []
+    },
+    "locks": [],
+    "key": "1c7da67d-b5d0-4fe5-8b72-6e66fd7ab7d7",
+    "files": []
+  }
+}

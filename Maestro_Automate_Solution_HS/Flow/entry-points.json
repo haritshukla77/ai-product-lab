@@ -1,0 +1,65 @@
+{
+  "$schema": "https://cloud.uipath.com/draft/2024-12/entry-point",
+  "$id": "entry-points.json",
+  "entryPoints": [
+    {
+      "filePath": "content/new.bpmn#manualTrigger1",
+      "uniqueId": "75523e18-693c-4d56-84dd-f95a7b6c53f1",
+      "type": "flow",
+      "input": {
+        "type": "object",
+        "properties": {
+          "recepient": {
+            "type": "string",
+            "title": "recepient",
+            "default": "harryshukla613@gmail.com"
+          },
+          "topic": {
+            "type": "string",
+            "title": "topic",
+            "default": "AI Agents"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {}
+      },
+      "displayName": "Manual trigger"
+    },
+    {
+      "filePath": "content/24f06775-98b0-4c33-b453-0a4fee0750bf/agent.json",
+      "uniqueId": "24f06775-98b0-4c33-b453-0a4fee0750bf",
+      "type": "agent",
+      "targetRuntime": "pythonAgent",
+      "input": {
+        "type": "object",
+        "properties": {
+          "manualTrigger1__output__topic": {
+            "type": "string",
+            "description": "Bound from $vars.manualTrigger1.output.topic"
+          },
+          "script1__output__storiesJson": {
+            "description": "Bound from $vars.script1.output.storiesJson"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "subject": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string"
+          },
+          "bodyhtml": {
+            "type": "string"
+          }
+        }
+      },
+      "displayName": "Autonomous agent",
+      "hiddenAtDesignTime": true
+    }
+  ]
+}

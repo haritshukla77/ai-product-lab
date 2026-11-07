@@ -1,0 +1,22 @@
+{
+  "docVersion": "1.0.0",
+  "tenants": [
+    {
+      "tenantKey": "2a832f01-59d1-4a84-ac09-0ab89f12f118",
+      "resources": [
+        {
+          "solutionResourceKey": "8348fb10-ead5-4bf4-9238-a01287eece05",
+          "reprovisioningIndex": 0,
+          "overwrite": {
+            "resourceKey": "8348fb10-ead5-4bf4-9238-a01287eece05",
+            "resourceName": "harryshukla613@gmail.com",
+            "folderKey": "355a9f19-4fa9-4e77-bf46-50d04edea15e",
+            "folderFullyQualifiedName": "harryshukla613@gmail.com's workspace",
+            "folderPath": "a5b8d6ed-04ac-4019-a70d-0318c7f4ffa0.355a9f19-4fa9-4e77-bf46-50d04edea15e",
+            "type": "Reference"
+          }
+        }
+      ]
+    }
+  ]
+}
