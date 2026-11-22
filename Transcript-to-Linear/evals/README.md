@@ -1,5 +1,15 @@
 # Evaluation
 
+## Measurement protocol
+
+1. **Select 6–10 cases for the first benchmark.** Include straightforward planning, ambiguous or exploratory scope, a long transcript, and a revision to an existing issue. Before either workflow runs, a PM and engineer label agreed requirements, proposed ideas, and open decisions from the transcript and recorded human decisions. For revisions, also record the expected change and the linked Linear issue ID.
+2. **Run manual and assisted workflows on the same inputs.** Use the same issue acceptance rubric in both. Favor different operators or alternate the order to reduce the benefit of having seen a case before. Record active minutes by role for transcript review, drafting, review, edits, sign-off, and any manual fallback. Include the effort spent on failed attempts. Report first publishes and revisions separately. If a set yields zero accepted issues, show the effort and zero issue count directly.
+3. **Score coverage and scope.** Count each agreed requirement once when an accepted issue represents it accurately. For revisions, score the agreed changes for the selected requirement. At preview and sign-off, flag each issue with an unsupported commitment once per stage. For example, a numeric SLA needs evidence in the transcript or an explicit human decision. An unresolved threshold can stay open. Report raw counts alongside the rates.
+4. **Verify Linear writes.** Verify the issue IDs, intended changes, and any extra writes against the confirmed plan. Set a completion window before the pilot and count plans that miss it as failures. Count a resumed plan under the original confirmation. Track deliberate stops separately and verify zero writes when `APPLY` was withheld. Exercise interrupted creates, completed replays, and stale previews in the workflow checks below.
+5. **Measure preview latency by workflow.** Start the clock at transcript processing for a first publish and at feedback submission for a revision. Record time to a complete preview, time waiting at human prompts, and attempts that time out, truncate, or fail validation. Report the median with the successful and total attempt counts. Add p95 after enough runs to estimate tail latency.
+
+Evaluate the proposed [pilot bar](../README.md#success-metrics) against the paired manual baseline. The scorecard follows task-specific evaluation and user-facing reliability measurement practices. [OpenAI evaluation best practices](https://developers.openai.com/api/docs/guides/evaluation-best-practices) · [Google SRE guidance on SLOs](https://sre.google/workbook/implementing-slos/)
+
 ## Case LECHAT-001
 
 The input was Mistral’s [Le Chat sample meeting transcript](https://github.com/mistralai/cookbook/blob/main/mistral/agents/non_framework/transcript_linearticket_agent/lechat_product_call_trascript.pdf). The evaluation compared two historical Linear issues with a preview generated after PRD review and a ticket-prompt change. The exact run provenance of the earlier PRD export remains unverified.

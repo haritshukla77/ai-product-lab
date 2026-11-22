@@ -2,7 +2,7 @@
 
 Turn a product meeting transcript into a reviewed product requirements document (PRD) and an engineering backlog. When feedback changes a requirement, the notebook previews an update to its linked Linear issue.
 
-[Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Runbook and workflow diagram](RUNBOOK.md) · [Changes from Mistral](CHANGES.md) · [Evaluation](evals/README.md)
+[Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Runbook and workflow diagram](RUNBOOK.md) · [Changes from Mistral](CHANGES.md) · [Success metrics](#success-metrics) · [Evaluation](evals/README.md)
 
 ## Product use case
 
@@ -67,9 +67,25 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 3. Run **Review and apply**. Use `APPROVE` to reach the ticket preview and `APPLY` to confirm the Linear operation.
 4. Run the same cell again with the same project name to revise a linked requirement. Use one Colab runtime per project. An empty project starts with fresh issue links, so use a separate test team if your previous demo created overlapping tickets.
 
+## Success metrics
+
+The primary metric is **PM and engineering minutes per accepted issue**, compared with manual drafting on the same cases. Count active time from transcript review through sign-off, including edits and manual recovery. An accepted issue captures agreed scope, has testable acceptance criteria, and records any open decisions.
+
+| Metric | How to measure it |
+|---|---|
+| Active minutes per accepted issue | Total active PM and engineering minutes ÷ accepted issues. |
+| Agreed-work coverage | Agreed requirements accurately represented in accepted issues ÷ actionable requirements independently identified by reviewers. |
+| Unsupported commitment rate | Issues with an unapproved scope item, target, or deadline ÷ issues reviewed. Score previews and final issues separately. |
+| Confirmed apply success rate | Confirmed plans completed correctly in Linear ÷ confirmed plans. Count each plan once across retries. |
+| Time to a reviewable preview | Elapsed time to the first complete preview. Record reviewer wait separately and report run counts, median latency, and failures. Add p95 when the sample supports it. |
+
+**Proposed pilot bar.** Aim for at least **20% lower active time per accepted issue** against the manual baseline, with coverage at or above baseline and zero unsupported commitments in accepted issues. The write-safety tests must show zero duplicate creates, wrong-issue updates, and writes without `APPLY`.
+
+**Measured so far.** One live rehearsal created 12 linked issues, updated HAR-26 in place, and made zero writes when the completed apply was replayed in the same session. The pilot baseline is pending. [Measurement protocol](evals/README.md#measurement-protocol) · [Live evidence](evals/README.md#live-colab-rehearsal)
+
 ## Product trade-offs
 
-**Product decision.** Start with an approval-gated backlog workflow for one team. The unit of value is an accepted engineering issue. The success measure is **PM and engineering time per accepted issue**, from transcript review through final edits, compared with manual drafting. Ticket volume is an activity measure. A faster initial draft can still cost the team time if it creates scope disputes or rework.
+**Product decision.** Start with an approval-gated backlog workflow for one team. A faster initial draft can still cost the team time if it creates scope disputes or rework.
 
 ### Model selection, latency, and quality
 
@@ -106,7 +122,7 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 
 ### Rollout bar and evidence
 
-Start in preview mode, then enable approval-gated writes for one team. Require clean fault tests for wrong-issue updates, duplicate creates, and writes without approval. Compare total reviewer time with the manual baseline before expanding. The live rehearsal created **12 linked issues**, previewed a targeted HAR-26 revision, and returned **0 creates and 0 updates** when the completed apply was replayed in the same session. Restart and interrupted-write recovery were tested in simulation. [Evaluation notes](evals/README.md) · [Recovery runbook](RUNBOOK.md#recover-from-an-interrupted-apply)
+Start in preview mode, then enable approval-gated writes for one team. Use the [pilot bar](#success-metrics) to decide when to expand. [Recovery runbook](RUNBOOK.md#recover-from-an-interrupted-apply)
 
 ## Credits
 
