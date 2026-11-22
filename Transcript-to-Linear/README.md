@@ -2,7 +2,7 @@
 
 Turn a product meeting transcript into a reviewed product requirements document (PRD) and an engineering backlog. When feedback changes a requirement, the notebook previews an update to its linked Linear issue.
 
-[Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Evaluation](evals/README.md)
+[Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Runbook and workflow diagram](RUNBOOK.md) · [Changes from Mistral](CHANGES.md) · [Evaluation](evals/README.md)
 
 ## Product use case
 
@@ -15,6 +15,8 @@ After a planning meeting, a PM and engineer need to agree on which work is ready
 3. **Revise an existing issue.** On a later run, select a linked requirement and enter feedback. Approve the revised PRD and review the proposed description before applying it to the same issue. The saved project file lets the workflow resume after a runtime restart.
 
 ## Run in Colab
+
+The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the fallback for Google Drive authorization errors.
 
 1. Add `MISTRAL_API_KEY`, `LINEAR_API_KEY`, and `LINEAR_TEAM_ID` as Colab secrets and enable notebook access. Use a Linear test team and a key with permission to read, create, and update its issues.
 2. Run setup through **Open project**. The notebook mounts Google Drive and uses Mistral’s sample transcript for a new project. The project file in Drive holds the transcript, approved PRD, issue links, and any pending apply plan.
@@ -30,7 +32,7 @@ After a planning meeting, a PM and engineer need to agree on which work is ready
 | Keep stable requirement-to-issue links | Requires a persistent project file. It enables revisions to target the same issue even when wording or titles change. |
 | Use one issue per actionable requirement | Keeps the Colab workflow predictable. Splitting or merging related issues calls for a separate review decision. |
 
-The earlier notebook created **20 issues** in a live Linear run. The revised linking and update flow has been verified with simulated clients. See the [evaluation notes](evals/README.md) for the observed changes and the remaining live verification.
+In the live Colab rehearsal, the revised workflow created **12 linked issues** on first publish and made **zero writes** when the completed apply was replayed. The [evaluation notes](evals/README.md) document the targeted HAR-26 revision and the separate simulated recovery checks.
 
 ## Credits
 
