@@ -10,9 +10,49 @@ After a planning meeting, a PM and engineer need to agree on which work is ready
 
 ## Workflow
 
-1. **Generate and review.** Mistral OCR extracts the transcript. The PRD agent drafts requirements and runs up to three automated review rounds. A human can request revisions, approve the PRD, or stop.
-2. **Preview and publish.** The ticket agent drafts one issue per actionable requirement. An explicit apply confirmation publishes the preview and records each requirement ID and Linear issue ID.
-3. **Revise an existing issue.** On a later run, select a linked requirement and enter feedback. Approve the revised PRD and review the proposed description before applying it to the same issue. The saved project file lets the workflow resume after a runtime restart.
+### 1. Generate and review
+
+Mistral OCR extracts the transcript. The PRD agent drafts requirements and runs up to three automated review rounds. The reviewer can request changes, approve the PRD, or stop.
+
+![Colab shows the PRD and reviewer feedback reserving requirement IDs for actionable work](assets/workflow/01-prd-review-feedback.png)
+
+*The reviewer uses `REVISE` to ask that requirement IDs be reserved for actionable work and that exploratory ideas stay in the PRD as proposals.*
+
+![Colab displays the revised PRD with APPROVE entered at the human review prompt](assets/workflow/02-prd-review-approval.png)
+
+*The revised PRD keeps the latency threshold open. The reviewer enters `APPROVE` to draft tickets from it.*
+
+### 2. Preview and publish
+
+The ticket agent drafts one issue per actionable requirement. A separate `APPLY` confirmation publishes the preview and records each requirement’s link to its Linear issue.
+
+![Colab displays candidate tickets and the APPLY confirmation prompt](assets/workflow/03-ticket-preview-apply.png)
+
+*The ticket preview shows the proposed descriptions and acceptance criteria before publishing.*
+
+![Colab reports 12 creates, zero updates, and requirement-to-issue links](assets/workflow/04-first-publish-result.png)
+
+*After `APPLY`, Colab reported **12 created, 0 updated** and printed the new mappings, including REQ-001 → HAR-26.*
+
+![Linear lists the 12 newly created issues from HAR-26 through HAR-37](assets/workflow/05-linear-created-issues.png)
+
+*The published batch in Linear runs from HAR-26 through HAR-37.*
+
+### 3. Revise an existing issue
+
+On a later run, select one linked requirement and enter feedback. Approve the revised PRD, then review the description diff before applying it to the existing issue. The saved project file preserves the links across runtimes.
+
+![Colab lists linked requirements and prompts for feedback on REQ-001](assets/workflow/06-revision-select-requirement.png)
+
+*The reviewer selects REQ-001, the peak-load performance requirement, and enters feedback.*
+
+![Colab previews the HAR-26 description diff and awaits explicit apply confirmation](assets/workflow/07-revision-preview-diff.png)
+
+*The preview resolves REQ-001 to HAR-26. The proposed description adds a p95 baseline measurement and keeps the SLA threshold and peak-load definition open.*
+
+![Colab confirms the HAR-26 update with zero issues created and one updated](assets/workflow/08-revision-apply-result.png)
+
+*Colab confirms the update to HAR-26 and reports **0 created, 1 updated**.*
 
 ## Run in Colab
 

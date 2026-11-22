@@ -29,11 +29,11 @@ The revised workflow ran on the Le Chat sample using Colab runtime storage after
 |---|---|
 | First publish | Colab reported **Created: 12 \| Updated: 0** and printed the requirement-to-issue links. The new batch ran from HAR-26 through HAR-37. |
 | Human PRD revision | The revised draft kept translation, language expansion, user-facing analytics, and the community forum under Proposed Ideas. The exploratory section displayed no requirement headings for those ideas. |
-| Targeted update | REQ-001 resolved to **HAR-26**. The preview added measurement of p95 response time and left the latency SLA and peak-load definition open. The operator reported applying the preview. The after description in Linear and the apply count were not captured in the evidence reviewed here. |
+| Targeted update | REQ-001 resolved to **HAR-26**. The preview added measurement of p95 response time and left the latency SLA and peak-load definition open. After confirmation, Colab reported `HAR-26: updated` and **0 created, 1 updated**. [Colab apply result](../assets/workflow/08-revision-apply-result.png) |
 | Saved state and replay | **Saved result** displayed 12 requirement-to-issue links. The guarded replay confirmed no pending plan and returned **No changes to apply.**, with `{'created': 0, 'updated': 0}`. This was an in-session replay. |
 
 ## Limits
 
-The live rehearsal verified a first publish and a zero-write replay in the same Colab session. The restart and interrupted-write scenarios were exercised in simulation. Reconnecting to Google Drive and repeating the live test from a fresh runtime remain unverified. The output-quality evaluation covers one transcript and two targeted checks. It provides no estimate of failure frequency or review time saved.
+The live rehearsal captured a first publish, a linked issue update confirmed by Colab, and a zero-write replay in the same session. The restart and interrupted-write scenarios were exercised in simulation. Reconnecting to Google Drive and repeating the live test from a fresh runtime remain unverified. The output-quality evaluation covers one transcript and two targeted checks. It provides no estimate of failure frequency or review time saved.
 
 See the [runbook](../RUNBOOK.md) to reproduce the live checks and back up runtime state.
