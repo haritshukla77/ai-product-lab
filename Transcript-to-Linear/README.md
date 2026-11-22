@@ -42,6 +42,10 @@ The ticket agent drafts one issue per actionable requirement. A separate `APPLY`
 
 On a later run, select one linked requirement and enter feedback. Approve the revised PRD, then review the description diff before applying it to the existing issue. The saved project file preserves the links across runtimes.
 
+![Linear shows HAR-26 before feedback, with the latency threshold still open](assets/workflow/har-26-before-revision.png)
+
+*Before feedback, HAR-26 leaves the latency threshold open. The revision below adds a p95 baseline measurement.*
+
 ![Colab lists linked requirements and prompts for feedback on REQ-001](assets/workflow/06-revision-select-requirement.png)
 
 *The reviewer selects REQ-001, the peak-load performance requirement, and enters feedback.*
