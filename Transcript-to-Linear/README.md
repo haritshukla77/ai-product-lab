@@ -25,14 +25,32 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 
 ## Product trade-offs
 
-| Decision | Trade-off |
-|---|---|
-| Review the PRD before drafting tickets | Adds model and reviewer time. It gives the PM a chance to catch an unapproved idea before it becomes backlog scope. |
-| Review the ticket preview before writing | The ticket agent can add details that were absent from an approved PRD. A second check catches unagreed targets and implementation choices. |
-| Keep stable requirement-to-issue links | Requires a persistent project file. It enables revisions to target the same issue even when wording or titles change. |
-| Use one issue per actionable requirement | Keeps the Colab workflow predictable. Splitting or merging related issues calls for a separate review decision. |
+**Product decision.** Start with an approval-gated backlog workflow for one team. The unit of value is an accepted engineering issue. The success measure is **PM and engineering time per accepted issue**, from transcript review through final edits, compared with manual drafting. Ticket volume is an activity measure. A faster initial draft can still cost the team time if it creates scope disputes or rework.
 
-In the live Colab rehearsal, the revised workflow created **12 linked issues** on first publish and made **zero writes** when the completed apply was replayed. The [evaluation notes](evals/README.md) document the targeted HAR-26 revision and the separate simulated recovery checks.
+### Model selection, latency, and quality
+
+Early Mistral Large ticket-drafting runs hit the output limit twice, including after the output budget was increased. A separate run timed out. A cut-off response left the batch without a usable JSON payload. The current configuration keeps Mistral Large with low reasoning for ticket drafting, caps the response at 8,192 output tokens, and asks for a short summary and up to three testable acceptance criteria per ticket. The approved PRD determines the number of tickets. The agent validates that it returned exactly one nonempty draft per eligible requirement ID before the preview. Large with low reasoning completed the live 12-issue run. That result supports keeping it as the baseline. It leaves the effect of each configuration change open.
+
+**Decision rule for a smaller model.** Evaluate Mistral Small with reasoning disabled for ticket drafting on the same reviewed PRDs, with the same prompt and output schema. Pin both model versions and repeat the long and ambiguous cases. Score coverage of agreed work, unsupported commitments, acceptance-criteria quality, completion and truncation rates, and reviewer edits. Compare median and p95 time to a reviewable batch and model cost per accepted issue. Switch the drafting stage only if Small meets the agreed quality bar while lowering latency or cost. This comparison is still pending.
+
+### Human review and requirement identity
+
+- **Approve scope before drafting.** Up to three automated review rounds catch transcript-to-PRD issues. The human then decides which work is actionable. In the live run, feedback removed requirement IDs from exploratory ideas before drafting. The explicit `REQ` headings give the pipeline a reliable eligibility rule. A reviewer still has to check whether each heading represents agreed work.
+- **Approve the actual Linear change.** `APPROVE` authorizes drafting from the PRD. `APPLY` authorizes the previewed create or update. The second checkpoint costs reviewer time. It catches a different error: a ticket can turn a qualitative requirement into an unsupported SLA or implementation choice, even when the PRD is sound.
+- **Keep issue identity stable across revisions.** The project saves each requirement ID with its Linear UUID. A revision updates the selected requirement and the linked issue description, so changes to a title or wording never drive ticket matching. One issue per requirement keeps the first release predictable. Splits, merges, and scope removals need explicit review because they can change ownership and dependencies.
+
+### Failure handling and production controls
+
+| Failure | Notebook behavior | Control for a shared production deployment |
+|---|---|---|
+| Model timeout, truncated JSON, or invalid requirement IDs | Drafting stops before the publish preview. Linear receives zero writes and the last applied project remains available. | Record failure reason, elapsed time, and token use by stage. Retry transient failures within a time budget. For recurring truncation, draft in bounded batches and validate all requirement IDs before showing a publish preview. |
+| Linear write times out or a batch stops partway through | The confirmed plan and preassigned issue UUIDs are saved before writes. Each completed action is checkpointed. Resume skips completed actions and checks the same UUID when a create result is ambiguous. | Use a durable job store, serialize writes per project, and reconcile uncertain API results by UUID before retrying. Surface permanent permission and validation failures to the operator. |
+| An issue changes after preview | The notebook re-reads the description before writing. If it already matches the proposed text, the operation is a no-op. An intervening edit blocks the update and calls for a fresh diff. | The read and write are separate calls. Use an atomic version check if the API supports one. Otherwise limit who can write the managed description and surface conflicts for human review. |
+| Colab storage is lost or Drive authorization fails | The notebook can store a project JSON in the current runtime and restore it from a downloaded copy. The live rehearsal used this fallback. | Persist state outside the execution environment and test backup restore. Keep transcript access, retention, and issue-write credentials scoped to the team. |
+
+### Rollout bar and evidence
+
+Start in preview mode, then enable approval-gated writes for one team. Require clean fault tests for wrong-issue updates, duplicate creates, and writes without approval. Compare total reviewer time with the manual baseline before expanding. The live rehearsal created **12 linked issues**, previewed a targeted HAR-26 revision, and returned **0 creates and 0 updates** when the completed apply was replayed in the same session. Restart and interrupted-write recovery were tested in simulation. [Evaluation notes](evals/README.md) · [Recovery runbook](RUNBOOK.md#recover-from-an-interrupted-apply)
 
 ## Credits
 
