@@ -31,6 +31,19 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 
 Early Mistral Large ticket-drafting runs hit the output limit twice, including after the output budget was increased. A separate run timed out. A cut-off response left the batch without a usable JSON payload. The current configuration keeps Mistral Large with low reasoning for ticket drafting, caps the response at 8,192 output tokens, and asks for a short summary and up to three testable acceptance criteria per ticket. The approved PRD determines the number of tickets. The agent validates that it returned exactly one nonempty draft per eligible requirement ID before the preview. Large with low reasoning completed the live 12-issue run. That result supports keeping it as the baseline. It leaves the effect of each configuration change open.
 
+<details>
+<summary>Failure evidence</summary>
+
+**Output truncation.** The ticket-drafting call returned `finish_reason="length"`. The notebook stopped before parsing the incomplete response.
+
+![Colab traceback showing ticket drafting stopped when the model reached the output limit](assets/mistral-output-truncation.jpg)
+
+**Read timeout.** A separate Mistral API request reached the client's 120-second read timeout.
+
+![Colab traceback showing the configured 120-second Mistral API read timeout](assets/mistral-read-timeout.jpg)
+
+</details>
+
 **Decision rule for a smaller model.** Evaluate Mistral Small with reasoning disabled for ticket drafting on the same reviewed PRDs, with the same prompt and output schema. Pin both model versions and repeat the long and ambiguous cases. Score coverage of agreed work, unsupported commitments, acceptance-criteria quality, completion and truncation rates, and reviewer edits. Compare median and p95 time to a reviewable batch and model cost per accepted issue. Switch the drafting stage only if Small meets the agreed quality bar while lowering latency or cost. This comparison is still pending.
 
 ### Human review and requirement identity
