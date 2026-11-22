@@ -29,20 +29,19 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 
 ### Model selection, latency, and quality
 
-Early Mistral Large ticket-drafting runs hit the output limit twice, including after the output budget was increased. A separate run timed out. A cut-off response left the batch without a usable JSON payload. The current configuration keeps Mistral Large with low reasoning for ticket drafting, caps the response at 8,192 output tokens, and asks for a short summary and up to three testable acceptance criteria per ticket. The approved PRD determines the number of tickets. The agent validates that it returned exactly one nonempty draft per eligible requirement ID before the preview. Large with low reasoning completed the live 12-issue run. That result supports keeping it as the baseline. It leaves the effect of each configuration change open.
-
-<details>
-<summary>Failure evidence</summary>
-
-**Output truncation.** The ticket-drafting call returned `finish_reason="length"`. The notebook stopped before parsing the incomplete response.
+**Output truncation.** Early Mistral Large ticket-drafting runs hit the output limit twice, including after the cap went from 2,048 to 8,192 tokens. The screenshot shows `finish_reason="length"` and the guard stopping the run before it could parse incomplete JSON.
 
 ![Colab traceback showing ticket drafting stopped when the model reached the output limit](assets/mistral-output-truncation.jpg)
 
-**Read timeout.** A separate Mistral API request reached the client's 120-second read timeout.
+**What changed.** Raising the token cap alone still left a cut-off response. We kept the 8,192-token cap for larger batches and reduced how much the model had to generate. We set reasoning effort to `low` and asked for a short summary and up to three testable acceptance criteria per ticket. The approved PRD still determines the ticket count. The notebook checks for exactly one nonempty draft per eligible requirement ID before it shows the preview.
+
+**Read timeout.** A separate drafting request hit the client’s 120-second read timeout while waiting for Mistral.
 
 ![Colab traceback showing the configured 120-second Mistral API read timeout](assets/mistral-read-timeout.jpg)
 
-</details>
+**What changed.** We increased the read timeout from 120 to 600 seconds to give slower responses more time during testing. This also increases how long the notebook can wait on a stalled request, which is why a shared deployment would need a bounded retry and latency budget.
+
+**Observed result.** The combined configuration completed the live 12-issue run with Mistral Large. That made it the baseline for this notebook. The run changed several settings, so the effect of any one change is still unmeasured.
 
 **Decision rule for a smaller model.** Evaluate Mistral Small with reasoning disabled for ticket drafting on the same reviewed PRDs, with the same prompt and output schema. Pin both model versions and repeat the long and ambiguous cases. Score coverage of agreed work, unsupported commitments, acceptance-criteria quality, completion and truncation rates, and reviewer edits. Compare median and p95 time to a reviewable batch and model cost per accepted issue. Switch the drafting stage only if Small meets the agreed quality bar while lowering latency or cost. This comparison is still pending.
 
