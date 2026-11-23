@@ -8,10 +8,11 @@ from pathlib import Path
 from tempfile import TemporaryDirectory
 from types import SimpleNamespace
 from typing import Optional
-from unittest.mock import patch
+from unittest import TestCase
+from unittest.mock import Mock, patch
 from uuid import uuid4
 
-from pydantic import BaseModel
+from pydantic import BaseModel, ValidationError
 
 
 class TransportError(Exception):
@@ -91,6 +92,7 @@ def model_response(api_key, model, prompt, **options):
     return baseline
 
 
+real_complete_text = scope["complete_text"]
 scope["complete_text"] = model_response
 Workflow = scope["WorkflowOrchestrator"]
 
@@ -155,4 +157,54 @@ with TemporaryDirectory() as folder:
     assert fake.updated == 1
     assert run(flow, "") is None
 
+def chat_response(content, finish_reason="stop"):
+    choice = {"finish_reason": finish_reason, "message": {"content": content}}
+    return SimpleNamespace(raise_for_status=lambda: None, json=lambda: {"choices": [choice]})
+
+
+# Exercise the real response and ticket validators with simulated API responses.
+checks = TestCase()
+with TemporaryDirectory() as folder:
+    path = Path(folder) / "project.json"
+    flow = Workflow(config, "transcript", path)
+    before = deepcopy(flow.state)
+    write_counts = fake.created, fake.updated
+    issues_before = deepcopy(fake.issues)
+
+    draft = {
+        "requirement_id": "REQ-001",
+        "title": "Peak performance",
+        "description": "Measure latency.",
+    }
+    requirement_error = "one ticket for each supplied requirement ID"
+    invalid_drafts = [
+        ("malformed JSON", chat_response('{"tickets":'), ValidationError, "Invalid JSON"),
+        ("truncated output", chat_response('{"tickets":', "length"), ValueError, "response was cut off"),
+        ("missing draft", chat_response(json.dumps({"tickets": [draft]})), ValueError, requirement_error),
+        ("duplicate draft", chat_response(json.dumps({"tickets": [draft, draft]})), ValueError, requirement_error),
+    ]
+    for label, response, error_type, message in invalid_drafts:
+        post = Mock(side_effect=[chat_response(baseline), chat_response("None."), response])
+        with patch.dict(scope, {
+            "complete_text": real_complete_text,
+            "requests": SimpleNamespace(post=post),
+        }):
+            with checks.assertRaisesRegex(error_type, message):
+                run(flow, "APPROVE")
+        assert post.call_count == 3, label
+        ticket_prompt = post.call_args.kwargs["json"]["messages"][0]["content"]
+        assert "exactly one engineering ticket" in ticket_prompt, label
+        assert not path.exists() and flow.state == before, label
+        assert (fake.created, fake.updated) == write_counts and fake.issues == issues_before, label
+
+    exploratory_prd = "# PRD\n\n## Proposed Ideas\n\nExplore a community forum.\n"
+    completion = Mock(side_effect=[exploratory_prd, "None."])
+    with patch.dict(scope, {"complete_text": completion}):
+        assert run(flow, "APPROVE", "APPLY") == {"created": 0, "updated": 0}
+    assert completion.call_count == 2
+    saved = flow.load_state()
+    assert saved["prd"] == exploratory_prd and saved["links"] == {} and saved["pending"] is None
+    assert (fake.created, fake.updated) == write_counts and fake.issues == issues_before
+
 print("Passed: approval and cancellation, ambiguous-create retry, automatic links, same-issue update, unaffected issue, replay after restart, and stale preview.")
+print("Passed: malformed or truncated ticket output, missing or duplicate requirement drafts, and empty implementation scope.")

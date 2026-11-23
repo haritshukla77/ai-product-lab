@@ -1,7 +1,8 @@
 # Transcript to Linear
 
-I wanted to try out building a real world use case which can help PMs while exploring what open source models have to offer. I have been following MIstral and their work since sometime and came accross their own published workflow here: https://mistral.ai/news/agentic-workflows-from-meetings-to-dev-tickets/ 
-This is a simple but useful Agentic workflow use case which I adapted and made a few tweaks is to turn a product meeting transcript into a reviewed product requirements document (PRD) and an engineering backlog. When feedback changes a requirement, the notebook previews an update to its linked Linear issue.
+Turn a product meeting transcript into a reviewed product requirements document (PRD) and publish the agreed work to Linear. When new feedback changes a requirement, preview an update to its linked issue.
+
+I adapted Mistral’s published workflow to explore how AI can help PMs turn meeting decisions into engineering work. [Original Mistral workflow](https://mistral.ai/news/agentic-workflows-from-meetings-to-dev-tickets/)
 
 [Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Runbook and workflow diagram](RUNBOOK.md) · [Changes from Mistral](CHANGES.md) · [Success metrics](#success-metrics) · [Evaluation](evals/README.md)
 
@@ -11,9 +12,11 @@ After a planning meeting, a PM and engineer need to agree on which work is ready
 
 ## Workflow
 
+**First publish** · Extract the transcript → draft and review the PRD → preview tickets → publish to Linear.
+
 ### 1. Generate and review
 
-Mistral OCR extracts the transcript. The PRD agent drafts requirements and runs up to three automated review rounds. The reviewer can request changes, approve the PRD, or stop.
+Mistral OCR extracts the text from the PDF. The PRD agent drafts the document and runs up to three automated review rounds. The PM checks that agreed work is actionable, proposals stay exploratory, and unresolved targets stay open. Enter `REVISE` to give feedback, `APPROVE` to draft tickets, or `STOP` to end the run.
 
 ![Colab shows the PRD and reviewer feedback reserving requirement IDs for actionable work](assets/workflow/01-prd-review-feedback.png)
 
@@ -25,7 +28,7 @@ Mistral OCR extracts the transcript. The PRD agent drafts requirements and runs 
 
 ### 2. Preview and publish
 
-The ticket agent drafts one issue per actionable requirement. A separate `APPLY` confirmation publishes the preview and records each requirement’s link to its Linear issue.
+The ticket agent drafts one issue per actionable requirement in the approved PRD. Review the proposed scope and acceptance criteria. Enter `APPLY` to publish the preview and save each requirement’s link to its Linear issue.
 
 ![Colab displays candidate tickets and the APPLY confirmation prompt](assets/workflow/03-ticket-preview-apply.png)
 
@@ -41,7 +44,7 @@ The ticket agent drafts one issue per actionable requirement. A separate `APPLY`
 
 ### 3. Revise an existing issue
 
-On a later run, select one linked requirement and enter feedback. Approve the revised PRD, then review the description diff before applying it to the existing issue. The saved project file preserves the links across runtimes.
+Reopen the saved project and select a linked requirement. Enter feedback, approve the revised PRD, then review the description diff for the original issue. Enter `APPLY` to update that issue. The saved requirement ID and Linear issue ID determine which ticket receives the change.
 
 ![Linear shows HAR-26 before feedback, with the latency threshold still open](assets/workflow/har-26-before-revision.png)
 
@@ -66,23 +69,25 @@ The [runbook](RUNBOOK.md) includes the full workflow, the feedback demo, and the
 1. Add `MISTRAL_API_KEY`, `LINEAR_API_KEY`, and `LINEAR_TEAM_ID` as Colab secrets and enable notebook access. Use a Linear test team and a key with permission to read, create, and update its issues.
 2. Run setup through **Open project**. The notebook mounts Google Drive and uses Mistral’s sample transcript for a new project. The project file in Drive holds the transcript, approved PRD, issue links, and any pending apply plan.
 3. Run **Review and apply**. Use `APPROVE` to reach the ticket preview and `APPLY` to confirm the Linear operation.
-4. Run the same cell again with the same project name to revise a linked requirement. Use one Colab runtime per project. An empty project starts with fresh issue links, so use a separate test team if your previous demo created overlapping tickets.
+4. To revise a linked issue, reopen the same project with its saved state and Linear team, then run **Review and apply** again. Use one Colab runtime per project.
 
 ## Success metrics
 
-The primary metric is **PM and engineering minutes per accepted issue**, compared with manual drafting on the same cases. Count active time from transcript review through sign-off, including edits and manual recovery. An accepted issue captures agreed scope, has testable acceptance criteria, and records any open decisions.
+The primary metric is **PM and engineering minutes per accepted issue**. An accepted issue reflects agreed scope, has testable acceptance criteria, and records open decisions. Compare manual and assisted work on the same cases, with first publishes and revisions reported separately.
 
 | Metric | How to measure it |
 |---|---|
-| Active minutes per accepted issue | Total active PM and engineering minutes ÷ accepted issues. |
-| Agreed-work coverage | Agreed requirements accurately represented in accepted issues ÷ actionable requirements independently identified by reviewers. |
-| Unsupported commitment rate | Issues with an unapproved scope item, target, or deadline ÷ issues reviewed. Score previews and final issues separately. |
-| Confirmed apply success rate | Confirmed plans completed correctly in Linear ÷ confirmed plans. Count each plan once across retries. |
-| Time to a reviewable preview | Elapsed time to the first complete preview. Record reviewer wait separately and report run counts, median latency, and failures. Add p95 when the sample supports it. |
+| **Active minutes per accepted issue** | Total active PM and engineering minutes, including corrections and recovery, ÷ accepted issues. |
+| **Task completion rate** | Tasks with a verified outcome ÷ tasks started. A publish must create the expected linked issues. A revision must apply the approved change to the original issue without extra writes. Count an expected no-op as complete and report deliberate stops separately. |
+| **Workflow error rate** | Tasks that encounter at least one system error ÷ tasks started. Report the stage and cause, along with whether the task recovered. |
+| **Requirement recall** | Correctly represented actionable requirements ÷ actionable requirements independently labeled by reviewers. Score at the PRD and final-ticket stages to locate omissions. |
+| **Unsupported commitment rate** | Drafts or issues with an unapproved scope item, target, or deadline ÷ artifacts reviewed at that stage. Score the PRD, ticket preview, and final issues separately. |
+| **Linear write success rate** | Confirmed plans with the expected Linear changes verified by the deadline ÷ confirmed plans with writes. Count each plan once across retries. |
+| **End-to-end elapsed time** | Time from transcript submission or revision feedback to a verified outcome. Record time to the first complete preview and reviewer wait separately. |
 
-**Proposed pilot bar.** Aim for at least **20% lower active time per accepted issue** against the manual baseline, with coverage at or above baseline and zero unsupported commitments in accepted issues. The write-safety tests must show zero duplicate creates, wrong-issue updates, and writes without `APPLY`.
+**Proposed pilot bar.** Aim for at least **20% lower active time per accepted issue** than manual drafting. Task completion and requirement recall should hold or improve, with zero unsupported commitments in accepted issues. The write-safety checks must show zero duplicate creates, wrong-issue updates, and writes without `APPLY`. Establish error-rate and latency baselines before setting their targets. [Measurement protocol](evals/README.md#measurement-protocol)
 
-**Measured so far.** One live rehearsal created 12 linked issues, updated HAR-26 in place, and made zero writes when the completed apply was replayed in the same session. The pilot baseline is pending. [Measurement protocol](evals/README.md#measurement-protocol) · [Live evidence](evals/README.md#live-colab-rehearsal)
+**Evidence to date.** One live rehearsal created 12 linked issues, updated HAR-26 in place, and made zero writes when the completed apply was replayed in the same session. The manual baseline and broader benchmark are pending. [Live evidence](evals/README.md#live-colab-rehearsal)
 
 ## Product trade-offs
 
@@ -90,27 +95,28 @@ The primary metric is **PM and engineering minutes per accepted issue**, compare
 
 ### Model selection, latency, and quality
 
-**Output truncation.** Early Mistral Large ticket-drafting runs hit the output limit twice, including after the cap went from 2,048 to 8,192 tokens. The screenshot shows `finish_reason="length"` and the guard stopping the run before it could parse incomplete JSON.
+Mistral Large was used for ticket drafting in the upstream notebook. This project uses it for both text stages, and the revised configuration completed the 12-issue rehearsal. That makes it the baseline for comparison. [Model configuration](CHANGES.md)
+
+| Stage | Current setup | Why it fits the stage |
+|---|---|---|
+| Transcript extraction | Mistral OCR | Converts the PDF into source text for the PRD. |
+| PRD generation, review, and revision | `mistral-large-latest` with the model’s default reasoning effort | The PRD stage has to distinguish agreed work, exploratory ideas, and open decisions across the transcript. Errors here can carry into every downstream ticket. |
+| Ticket drafting | `mistral-large-latest` with `reasoning_effort="low"` and an 8,192-token output cap | The approved PRD already defines the scope. The model produces a short summary and up to three testable criteria per issue. Code validates one nonempty draft per actionable requirement ID. |
+
+**Output truncation.** Early ticket drafts hit the output limit twice, including after the cap rose from 2,048 to 8,192 tokens. We kept the higher cap, lowered reasoning effort, and shortened the requested ticket format. The approved PRD still determines the number of tickets.
 
 ![Colab traceback showing ticket drafting stopped when the model reached the output limit](assets/mistral-output-truncation.jpg)
 
-**What changed.** Raising the token cap alone still left a cut-off response. We kept the 8,192-token cap for larger batches and reduced how much the model had to generate. We set reasoning effort to `low` and asked for a short summary and up to three testable acceptance criteria per ticket. The approved PRD still determines the ticket count. The notebook checks for exactly one nonempty draft per eligible requirement ID before it shows the preview.
-
-**Read timeout.** A separate drafting request hit the client’s 120-second read timeout while waiting for Mistral.
+**Read timeout.** A separate attempt hit the 120-second read timeout. We raised it to 600 seconds for testing. A longer timeout also extends how long a stalled call can block the workflow. The 12-issue run used the combined configuration, so the effect of each change remains unmeasured.
 
 ![Colab traceback showing the configured 120-second Mistral API read timeout](assets/mistral-read-timeout.jpg)
 
-**What changed.** We increased the read timeout from 120 to 600 seconds to give slower responses more time during testing. This also increases how long the notebook can wait on a stalled request, which is why a shared deployment would need a bounded retry and latency budget.
-
-**Observed result.** The combined configuration completed the live 12-issue run with Mistral Large. That made it the baseline for this notebook. The run changed several settings, so the effect of any one change is still unmeasured.
-
-**Decision rule for a smaller model.** Evaluate Mistral Small with reasoning disabled for ticket drafting on the same reviewed PRDs, with the same prompt and output schema. Pin both model versions and repeat the long and ambiguous cases. Score coverage of agreed work, unsupported commitments, acceptance-criteria quality, completion and truncation rates, and reviewer edits. Compare median and p95 time to a reviewable batch and model cost per accepted issue. Switch the drafting stage only if Small meets the agreed quality bar while lowering latency or cost. This comparison is still pending.
+**Next model decision.** Benchmark a pinned Mistral Small version on the same approved PRDs. Keep it only if it preserves coverage, grounded criteria, and preview completion while improving latency or cost per accepted issue. Test reasoning effort separately on a single pinned model. For PRD review, use higher effort if it reduces omissions, unsupported commitments, or human rework enough to justify the added latency. [Model comparison protocol](evals/README.md#model-comparison)
 
 ### Human review and requirement identity
 
-- **Approve scope before drafting.** Up to three automated review rounds catch transcript-to-PRD issues. The human then decides which work is actionable. In the live run, feedback removed requirement IDs from exploratory ideas before drafting. The explicit `REQ` headings give the pipeline a reliable eligibility rule. A reviewer still has to check whether each heading represents agreed work.
-- **Approve the actual Linear change.** `APPROVE` authorizes drafting from the PRD. `APPLY` authorizes the previewed create or update. The second checkpoint costs reviewer time. It catches a different error: a ticket can turn a qualitative requirement into an unsupported SLA or implementation choice, even when the PRD is sound.
-- **Keep issue identity stable across revisions.** The project saves each requirement ID with its Linear UUID. A revision updates the selected requirement and the linked issue description, so changes to a title or wording never drive ticket matching. One issue per requirement keeps the first release predictable. Splits, merges, and scope removals need explicit review because they can change ownership and dependencies.
+- **Two approval checkpoints.** The PRD review settles what the team agreed to build. The ticket preview catches scope changes or unsupported targets introduced during drafting. A second confirmation costs reviewer time and lets reviewers approve the exact Linear changes.
+- **Stable issue identity.** Each requirement ID maps to a saved Linear UUID, so title or wording changes do not affect matching. One issue per requirement keeps the mapping simple. Splits, merges, and scope removals need explicit review because they can change ownership and dependencies.
 
 ### Failure handling and production controls
 
