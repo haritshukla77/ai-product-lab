@@ -1,6 +1,7 @@
 # Transcript to Linear
 
-Turn a product meeting transcript into a reviewed product requirements document (PRD) and an engineering backlog. When feedback changes a requirement, the notebook previews an update to its linked Linear issue.
+I wanted to try out building a real world use case which can help PMs while exploring what open source models have to offer. I have been following MIstral and their work since sometime and came accross their own published workflow here: https://mistral.ai/news/agentic-workflows-from-meetings-to-dev-tickets/ 
+This is a simple but useful Agentic workflow use case which I adapted and made a few tweaks is to turn a product meeting transcript into a reviewed product requirements document (PRD) and an engineering backlog. When feedback changes a requirement, the notebook previews an update to its linked Linear issue.
 
 [Open in Colab](https://colab.research.google.com/github/haritshukla77/ai-product-lab/blob/main/Transcript-to-Linear/TranscriptToLinear_RevisionWorkflow.ipynb) · [Notebook](TranscriptToLinear_RevisionWorkflow.ipynb) · [Runbook and workflow diagram](RUNBOOK.md) · [Changes from Mistral](CHANGES.md) · [Success metrics](#success-metrics) · [Evaluation](evals/README.md)
 
