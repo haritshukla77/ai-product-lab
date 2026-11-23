@@ -1,6 +1,6 @@
 # Developer Replication Guide: Strategic Decision OS
 
-This kit contains the specifications required to replicate the **Multi-Agent Strategic Decision OS** codebase.
+This kit contains the design specifications, prompts, and schemas for Strategic Decision OS. The [project case study](../README.md) describes the implemented workflow and how to run it.
 
 ## 1. System Philosophy
 The system is built as a **Sequential Synchronous State Machine**. Unlike parallel or swarm-based agent architectures, this system enforces a logic chain where each agent's findings are injected into the context of the next.
@@ -28,9 +28,9 @@ Implement the following triggers in your orchestration logic:
 
 ## 5. Development Setup
 1. **API Integration:** Use the `@google/genai` SDK.
-2. **Model Tiering:** Use `gemini-1.5-flash` for Agent Analysis (Speed) and `gemini-1.5-pro` for Executive Synthesis (Reasoning).
+2. **Model tiering.** The implementation uses Gemini Flash for analysis and Gemini Pro for executive synthesis. Check the [model configuration](../src/services/geminiService.ts) for the exact model IDs.
 3. **Environment:** Set `GEMINI_API_KEY` in your project settings.
 
 ## 6. Testing the Logic
 Use the **Healthcare AI Platform** demo case provided in the UI.
-- **Goal:** Verify that the "Risk & Governance" agent identifies regulatory compliance as a 'High' severity risk, effectively triggering the HITL gate.
+- Verify that a high-severity risk or incomplete governance controls in a regulated domain triggers review. Check the visible reason against the [implemented conditions](../src/App.tsx).

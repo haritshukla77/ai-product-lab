@@ -1,4 +1,6 @@
-# AI News Agent - Planning Documentation
+# AI News Agent · Original planning documents
+
+These documents capture the project at the planning handoff. For the implemented workflow and its evidence, open the [project case study](../README.md) or the [code quick start](../Code/README.md).
 
 ## 📋 Overview
 
@@ -76,7 +78,7 @@ Build an automated AI news agent that:
 └─────────────────────────────────────────────────────────────┘
 ```
 
-## 📊 Current Status
+## Planning status at handoff
 
 ### Planning Phase: ✅ COMPLETE
 
@@ -229,19 +231,19 @@ Overall Progress: ██░░░░░░░░░░░░░░░░░░ 8
 3. Scheduling problems
 4. Email deliverability
 
-## 🎯 Success Criteria
+## Original success targets
 
 ### Technical
-- ✅ 99%+ daily delivery rate
-- ✅ < 1 minute execution time
-- ✅ Zero critical errors per week
-- ✅ Average relevance score > 4/5
+- 99%+ daily delivery rate
+- < 1 minute execution time
+- Zero critical errors per week
+- Average relevance score > 4/5
 
 ### User Experience
-- ✅ Receives email daily at 8 AM IST
-- ✅ Articles are relevant to AI/LLM interests
-- ✅ Email is readable and well-formatted
-- ✅ Setup takes < 30 minutes
+- Receives email daily at 8 AM IST
+- Articles are relevant to AI/LLM interests
+- Email is readable and well-formatted
+- Setup takes < 30 minutes
 
 ## 📅 Timeline
 

@@ -1,5 +1,7 @@
 # Product Requirements Document (PRD): Strategic Decision OS
 
+This is the original design brief. The model names and targets below describe the initial design. The [project case study](../README.md) covers the current implementation and evaluation plan.
+
 **Author:** Principal Technical Product Manager (AI Strategy)  
 **Status:** Final / Portfolio Ready  
 **Version:** 1.0.0

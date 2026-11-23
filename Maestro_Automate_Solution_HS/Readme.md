@@ -1,140 +1,73 @@
-# Agentic Workflow Automation - A Simple Use Case: AI Developer Newsletter Automation
+# Agentic Workflow Automation using UiPath Maestro
 
-An end-to-end newsletter automation built with UiPath Maestro Automate and Visual Studio Code. The workflow retrieves developer news, uses an autonomous agent to draft a newsletter, and requests human approval before sending it through Gmail.
+An approval-gated developer newsletter workflow built in UiPath Maestro Automate. I implemented the DevPulse tutorial in my environment, configured Gmail delivery, and documented the failures I encountered during setup. [Workflow export](Flow/new.bpmn) · [Agent configuration](Flow/24f06775-98b0-4c33-b453-0a4fee0750bf/agent.json) · [Original DevPulse tutorial](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo)
 
-This is my hands-on implementation of the [DevPulse GeeksforGeeks demo](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo). I followed the original workflow and used Gmail for email delivery.
+## Product use case
 
-## What It Does
-
-Given a topic and recipient, the automation:
-
-1. Retrieves recent Hacker News stories through the Algolia Search API.
-2. Prepares the retrieved data using a script.
-3. Uses an autonomous agent to select relevant stories and draft a newsletter.
-4. Presents the draft for human review.
-5. Sends the newsletter through Gmail when approved, or ends the workflow when discarded.
+A newsletter editor wants to turn recent developer news into an issue worth sending. The workflow drafts from a topic and recent Hacker News stories. The editor reviews the draft and decides whether it should go to the intended recipient.
 
 ## Workflow
 
-| Step | Component | Purpose |
-|---|---|---|
-| 1 | Manual trigger | Accepts a topic and recipient email address |
-| 2 | HTTP request | Retrieves Hacker News stories from the last 48 hours |
-| 3 | Script | Structures the API response for the agent |
-| 4 | Autonomous agent | Selects five useful stories and generates the newsletter |
-| 5 | Human review | Presents the draft with Send and Discard options |
-| 6 | Decision | Routes execution based on the review outcome |
-| 7 | Gmail connector | Sends the approved newsletter |
-| 8 | End | Completes the workflow |
+**Topic and recipient → retrieve stories → prepare data → draft → review → send or discard**
 
-### End-to-End Flow Canvas
+| Stage | Behavior |
+|---|---|
+| Retrieve | A manual trigger takes the topic and recipient. The Algolia Search API retrieves matching Hacker News stories from the previous 48 hours. |
+| Prepare and draft | A script structures the story metadata. The agent is prompted to select five useful stories and produce a subject, plain-text digest, and HTML newsletter. |
+| Review | Maestro presents the draft in an inline human task with **Send** and **Discard** options. |
+| Deliver | The decision routes **Send** to the Gmail connector and **Discard** to the end of the workflow. |
 
-The complete workflow in UiPath Maestro Automate’s new Flow canvas, showing how data retrieval, agent execution, human review, and email delivery connect.
+![UiPath Maestro Automate canvas showing retrieval, agent drafting, review, and delivery](Screenshots/Workflow_overall.png)
 
-![End-to-end workflow in UiPath Maestro Automate](Screenshots/Workflow_overall.png)
+![Inline human review with the newsletter draft ready for a decision](Screenshots/HITL.png)
 
-## Human-in-the-Loop Review
+![Example newsletter delivered through Gmail](Screenshots/Final%20Email.png)
 
-The human review step provides a checkpoint before the newsletter is sent. A reviewer can inspect the generated content and choose **Send** or **Discard**.
+## Run in UiPath Maestro
 
-A useful feature demonstrated here is the ability to review the human task inline within the Maestro Automate experience.
-
-![Inline human review of the generated newsletter](Screenshots/HITL.png)
-
-## Final Email
-
-After approval, the Gmail connector delivers the newsletter to the recipient.
-
-![Final newsletter delivered by the news agent](Screenshots/Final%20Email.png)
-
-## Tools and Services
-
-- **UiPath Maestro Automate:** Workflow orchestration using the Flow canvas
-- **Visual Studio Code:** Local development environment
-- **Hacker News Algolia API:** News retrieval
-- **Autonomous agent:** Story selection and newsletter generation
-- **Human review task:** Approval before delivery
-- **UiPath Integration Service:** Gmail connection
-- **Gmail:** Newsletter delivery
-
-## Issues Encountered and Resolutions
-
-### 1. GUID-Related Error
-
-I encountered a GUID-related error while using a local UiPath workspace.
-
-**What I tried:** Saved the workspace to the cloud and attempted to run the workflow again. The error persisted.
-
-**What resolved it:** Created a new solution project and rebuilt the entire workflow. Execution then proceeded past the error.
-
-This was the workaround that succeeded in my environment; I did not establish the underlying root cause.
-
-![GUID-related error encountered in the original solution](Screenshots/Error_1_GUID.png)
-
-### 2. Gmail Connector Errors
-
-I also encountered Gmail connector errors involving the connection in UiPath Integration Service.
-
-**Resolution:** Re-established the Gmail connection in Integration Service, then reran the workflow.
-
-This highlighted the importance of checking connector authentication and connection configuration when troubleshooting delivery failures.
-
-![Gmail connector error — first view](Screenshots/Error_2_Integration_1.png)
-
-![Gmail connector error — second view](Screenshots/Error2_Integration_2.png)
-
-## Running the Project
-
-### Prerequisites
-
-- Access to UiPath Maestro Automate
-- VS Code with the required UiPath tooling
-- Access to the model used by the autonomous agent
-- A configured human review task
-- An active Gmail connection in UiPath Integration Service
-
-### Execution
-
-1. Open the solution using the UiPath tooling.
-2. Configure the agent, review task, and Gmail connection for your environment.
-3. Start the workflow using the manual trigger.
-4. Provide a recipient and topic, for example:
+1. Open the solution with Maestro Automate tooling in VS Code. Set up model access, assign the human review task, and bind a Gmail connection in UiPath Integration Service for your environment.
+2. Start the manual trigger with a topic and an inbox you control. The exported field name is `recepient`.
 
    ```json
    {
-     "recipient": "you@example.com",
+     "recepient": "you@example.com",
      "topic": "AI agents"
    }
    ```
 
-5. Inspect the generated newsletter in the human review step.
-6. Select **Send** to deliver it or **Discard** to end the run.
-7. Inspect the execution trace and verify delivery when Send is selected.
+3. Review the draft inline and choose **Send** or **Discard**.
+4. Inspect the execution trace. For **Send**, confirm delivery in the intended inbox. For **Discard**, verify the Gmail step was skipped. [Entry-point schema](Flow/entry-points.json) · [Original demo setup](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo)
 
-For the original demo’s detailed setup instructions, see the [source repository](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo). Its folder paths and Outlook-specific configuration differ from this implementation.
+## Success metrics
 
-Credentials and account connections must be configured separately.
+| Metric | How to measure it |
+|---|---|
+| Editorial acceptance rate | Drafts approved without material correction ÷ drafts reviewed. Score story relevance and factual support from the retrieved metadata. |
+| End-to-end task completion rate | Runs that reach their expected outcome ÷ runs started. Verify inbox delivery for **Send** and zero sends for **Discard**. |
+| Time to approved issue | Elapsed time from trigger to approval. Track active editorial time separately and compare with compiling the same digest manually. |
 
-## What I Learned
+Treat an email sent without approval or to the wrong recipient as a critical failure. A repeatable benchmark is pending.
 
-- Building an agentic workflow with Maestro Automate’s Flow canvas.
-- Combining API requests, scripts, and an autonomous agent.
-- Adding human oversight before email delivery.
-- Reviewing a human task inline during execution.
-- Configuring and troubleshooting an Integration Service connection.
-- Using execution traces to investigate workflow failures.
-- Documenting workarounds alongside successful results.
+## Product trade-offs
 
-## Project Context and Attribution
+| Decision | Why it fits | What to watch |
+|---|---|---|
+| Script the retrieval and data preparation | Keeps the source, time window, and story fields explicit. | Missing or sparse search results need a defined editorial response. |
+| Delegate story selection and drafting to the agent | Lets the workflow adapt the issue to a new topic with the same structure. | Check every selected link and claim against the retrieved stories. Model output can introduce unsupported details. |
+| Require approval before Gmail | Gives the editor control over a recipient-facing action. | Review adds a pause to each run. Measure active editing time and waiting time separately. |
+| Use a managed Gmail connection | The flow uses Integration Service to bind the sender in its environment. | A missing or stale binding can block delivery after approval. Capturing the trace helps locate the failure. |
 
-This is a tutorial-based learning and portfolio project.
+## Evaluation evidence
 
-The original DevPulse workflow and demo were created by [dushyant-uipath](https://github.com/dushyant-uipath) for a GeeksforGeeks webinar:
+The canvas, review screenshot, and delivered email document the approved path in my environment. The exported evaluation set has evaluator definitions and zero saved evaluation cases. For a repeatable check, use fixed story inputs, verify the selected links and claims, and exercise **Send**, **Discard**, sparse results, and connector failure. [Evaluation set](Flow/evals/c5dfae9b-d1e0-4283-8dac-191df1b12217/eval-sets/evaluation-set.json)
 
-[Original DevPulse repository](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo)
+### Failure handling
 
-My work involved implementing the complete workflow in my own environment, configuring Gmail delivery, running the automation, and troubleshooting the issues documented above.
+| Failure observed | What worked |
+|---|---|
+| GUID error in the local workspace | Moving the existing workspace to the cloud reproduced the error. Rebuilding the flow in a new solution let execution proceed. The root cause remains open. [Error screenshot](Screenshots/Error_1_GUID.png) |
+| Gmail connection errors | Re-established the Gmail connection in Integration Service, then reran the workflow. [First error view](Screenshots/Error_2_Integration_1.png) · [Second error view](Screenshots/Error2_Integration_2.png) |
 
-## Author
+## Credits
 
-[Harit Shukla](https://github.com/haritshukla77)
+DevPulse was created by Dushyant for a GeeksforGeeks webinar. This case study documents my implementation, Gmail configuration, and troubleshooting. [Original project](https://github.com/dushyant-uipath/geeksforgeeks-automate-demo)

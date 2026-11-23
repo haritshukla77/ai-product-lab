@@ -1,4 +1,6 @@
-# 🤖 AI News Agent
+# AI News Agent · Run locally
+
+[Project case study](../README.md) · [Planning documents](../Documentation/README.md)
 
 An automated system that delivers curated AI news from trusted sources directly to your inbox every morning at 8 AM IST.
 
@@ -23,9 +25,8 @@ An automated system that delivers curated AI news from trusted sources directly 
 
 1. **Clone or download the project**
 ```bash
-cd ~/Documents
-git clone <repository-url> ai-news-agent
-cd ai-news-agent
+git clone https://github.com/haritshukla77/ai-product-lab.git
+cd ai-product-lab/AI-News-Agent/Code
 ```
 
 2. **Set up virtual environment**
@@ -53,7 +54,7 @@ nano .env
 
 ### Usage
 
-**Test Mode** (Preview without sending):
+**Preview mode** renders the digest locally. Configure a test mailbox because exceptions can trigger an email alert.
 ```bash
 python main.py --test
 open preview.html  # View the preview
@@ -137,21 +138,18 @@ crontab -e
 ```
 
 ### Option 3: launchd (macOS)
-See `SETUP_GUIDE.md` in the planning documentation for details.
+See the [setup guide](../Documentation/SETUP_GUIDE.md) for details. Use one scheduling method per installation.
 
 ## 🧪 Testing
 
-Run tests:
+Use the component diagnostics.
+
 ```bash
-pytest tests/
-pytest --cov=src tests/  # With coverage
+python test_fetch.py     # Inspect feed results
+python test_smtp.py      # Check SMTP and optionally send a test email
 ```
 
-Test individual components:
-```bash
-python test_smtp.py      # Test email connection
-python test_fetch.py     # Test news fetching
-```
+Check the recipient before confirming a test send.
 
 ## 📊 News Sources
 
@@ -198,7 +196,7 @@ The digest includes:
 - Review logs: `tail -f logs/app.log`
 - Test SMTP: `python test_smtp.py`
 
-For more troubleshooting, see the planning documentation in `AI News Agent Dossier/SETUP_GUIDE.md`.
+See the [setup guide](../Documentation/SETUP_GUIDE.md) for troubleshooting.
 
 ## 📝 Logging
 
@@ -228,14 +226,13 @@ grep ERROR logs/app.log
 python3 -m venv venv
 source venv/bin/activate
 pip install -r requirements.txt
-pip install -e .
 ```
 
 ### Code Style
 ```bash
 black src/          # Format code
 flake8 src/         # Lint code
-pytest tests/       # Run tests
+python test_fetch.py  # Check feed results after configuration
 ```
 
 ### Adding New Sources
@@ -246,11 +243,10 @@ pytest tests/       # Run tests
 
 ## 📚 Documentation
 
-Comprehensive planning documentation is available in `AI News Agent Dossier/`:
-- `PLAN.md` - System architecture and implementation plan
-- `TECHNICAL_SPEC.md` - Detailed technical specifications
-- `SETUP_GUIDE.md` - Complete installation guide
-- `IMPLEMENTATION_ROADMAP.md` - Phase-by-phase development guide
+- [Architecture and implementation plan](../Documentation/PLAN.md)
+- [Technical specifications](../Documentation/TECHNICAL_SPEC.md)
+- [Setup guide](../Documentation/SETUP_GUIDE.md)
+- [Original implementation roadmap](../Documentation/IMPLEMENTATION_ROADMAP.md)
 
 ## 🤝 Contributing
 
@@ -259,10 +255,6 @@ Comprehensive planning documentation is available in `AI News Agent Dossier/`:
 3. Make your changes
 4. Write tests
 5. Submit a pull request
-
-## 📄 License
-
-MIT License - See LICENSE file for details
 
 ## 🙏 Acknowledgments
 
